@@ -12,16 +12,16 @@ const getItems = async (req, res) => {
 
 // Create a new item
 const createItem = async (req, res) => {
-    const Item = new Item({
+    const newItem = new Item({
         name: req.body.name,
         description: req.body.description,
-        quantity: Item.rawListeners.body.quantity,
+        quantity: req.body.quantity,
         location: req.body.location,
     });
 
     try {
-        const newItem = await Item.save();
-        res.status(201).json(newItem);
+        const savedItem = await newItem.save();
+        res.status(201).json(savedItem);
     } catch (err) {
         res.status(400).json({message: err.message});
     }
