@@ -1,10 +1,12 @@
-require('dotenv').config();
+//require('dotenv').config();
 const {MongoClient} = require('mongodb');
 
-const url = process.env.MONGO__URL;
-const client = new MongoClient(url);
+
+
 
 async function run() {
+    const url = "mongodb+srv://dbUser:dbUserPassword@d424capstone.vlmzc.mongodb.net/?retryWrites=true&w=majority&appName=D424capstone";
+    const client = new MongoClient(url);
     try {
         await client.connect();
         console.log("Success! Connected!");

@@ -1,11 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 
 // Load env variables
 dotenv.config();
 
-// Connect to MongoDB
+// Connect to database
 connectDB();
 
 const app = express();
