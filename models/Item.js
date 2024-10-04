@@ -27,7 +27,7 @@ const updateItem = async (id, itemData) => {
     const query = `UPDATE items
                     SET name=$1, price=$2, numberInStock=$3, category=$4, sku=$5
                     WHERE id=$6 RETURNING *`;
-    const values = [name, price, numberInStock, category, sku];
+    const values = [name, price, numberInStock, category, sku, id];
     const result = await pool.query(query, values);
     return result.rows[0];
 };
