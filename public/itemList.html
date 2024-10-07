@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <title>Item List</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Item List</h1>
+        <input type="text" id="search" placeholder="Search items..." />
+        <table id="itemTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Category</th>
+                    <th>SKU</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="itemTableBody">
+                <!-- JavaScript will dynamically populate rows here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="js/itemList.js"></script>
+</body>
+</html>
