@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Item Manager</title>
+</head>
+<body>
+    <header>
+        <h1>Item Manager</h1>
+        <nav>
+            <ul>
+                <li><a href="#addItem">Add Item</a></li>
+                <li><a href="#itemList">Item List</a></li>
+                <li><a href="#reports">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="addItem">
+            <h2>Add New Item</h2>
+            <form id="itemForm">
+                <input type="text" id="name" placeholder="Item Name" required>
+                <input type="number" id="price" placeholder="Price" required>
+                <input type="number" id="numberInStock" placeholder="Number in Stock" required>
+                <input type="text" id="category" placeholder="Category" required>
+                <input type="text" id="sku" placeholder="SKU" required>
+                <button type="submit">Add Item</button>
+            </form>
+        </section>
+
+        <section id="itemList">
+            <h2>Item List</h2>
+            <ul id="items"></ul>
+        </section>
+
+        <section id="reports">
+            <h2>Reports</h2>
+            <p>Report generation feature will be implemented later.</p>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
