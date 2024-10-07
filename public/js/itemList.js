@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Fetch items from the server
     const response = await fetch('/api/items');
     const items = await response.json();
+    console.log(items);
+    console.log(items.numberInStock);
 
     // Function to render items in the table
     const renderItems = (items) => {
@@ -13,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             row.innerHTML = `
                 <td>${item.name}</td>
                 <td>${item.price}</td>
-                <td>${item.numberInStock}</td>
+                <td>${item.numberinstock !== undefined ? item.numberinstock : 'N/A'}</td>
                 <td>${item.category}</td>
                 <td>${item.sku}</td>
                 <td>
