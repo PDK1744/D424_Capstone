@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Generate Reports</h1>
+
+    <section>
+        <h2>Total Items in Stock by Category</h2>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="itemList.html">Item List</a></li>
+                <li><a href="reports.html">Reports</a></li>
+            </ul>
+        </nav>
+        <p id="totalStockReportTimestamp"></p>
+        <button id="generateStockByCategoryReport">Generate Report</button>
+        <table id="stockByCategoryTable" border="1">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Total Stock</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Items Low on Stock</h2>
+        <p id="lowStockReportTimestamp"></p>
+        <label for="stockThreshold">Enter Stock Threshold:</label>
+        <input type="number" id="stockThreshold" placeholder="Enter number...">
+        <button id="generateLowStockReport">Generate Report</button>
+        <table id="lowStockTable" border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <script src="/js/reports.js"></script>
+</body>
+</html>
