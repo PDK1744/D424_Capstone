@@ -78,3 +78,8 @@ input[type="text"] {
     padding: 5px;
     width: 200px;
 }
+
+td[contenteditable="true"]:focus {
+    border: 1px solid #007BFF;
+    outline: none;
+}
