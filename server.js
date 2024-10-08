@@ -103,7 +103,11 @@ app.get('/home', isAuthenticated, (req, res) => {
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('API is running...');
+    if (!req.session.userId) {
+        res.redirect('/login');
+    } else {
+        res.redirect('home');
+    }
 });
 
 app.use('/api/items', itemRoutes);
