@@ -22,10 +22,10 @@ app.use(express.static('public')); // To serve static files
 
 // Session configuration
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your_secret_key', 
+    secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } 
+    cookie: { secure: false } // Set to true if using HTTPS
 }));
 
 const pool = new Pool({
@@ -35,23 +35,20 @@ const pool = new Pool({
     },
 });
 
-// Function to create a new user
-const createUser = async (username, password) => {
-    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password with 10 salt rounds
-    const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, hashedPassword]);
-    return result.rows[0];
+// Middleware to protect routes
+const isAuthenticated = (req, res, next) => {
+    if (req.session.userId) {
+        return next();
+    }
+    res.redirect('/login'); // Redirect to login if not authenticated
 };
 
-// User Registration Route
-app.post('/register', async (req, res) => {
-    const { username, password } = req.body;
-
-    try {
-        const newUser = await createUser(username, password);
-        res.status(201).json({ message: 'User created successfully', user: newUser });
-    } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ message: 'Error creating user' });
+// Default route to check authentication
+app.get('/', (req, res) => {
+    if (!req.session.userId) {
+        res.redirect('/login'); // Redirect to login if not authenticated
+    } else {
+        res.redirect('/home'); // Redirect to home if authenticated
     }
 });
 
@@ -94,26 +91,9 @@ app.get('/logout', (req, res) => {
     });
 });
 
-// Middleware to protect routes
-const isAuthenticated = (req, res, next) => {
-    if (req.session.userId) {
-        return next();
-    }
-    res.redirect('/login'); // Redirect to login if not authenticated
-};
-
 // Protected route for home page
 app.get('/home', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve home page if authenticated
-});
-
-// Default route to check authentication
-app.get('/', (req, res) => {
-    if (!req.session.userId) {
-        res.redirect('/login'); // Redirect to login if not authenticated
-    } else {
-        res.redirect('/home'); // Redirect to home if authenticated
-    }
 });
 
 // API routes
