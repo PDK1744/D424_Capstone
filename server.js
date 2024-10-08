@@ -74,6 +74,7 @@ app.post('/login', async (req, res) => {
         res.redirect('/'); // Redirect to home page after login
     } else {
         res.status(401).send('Invalid credentials');
+        res.redirect('/login');
     }
 });
 
@@ -98,7 +99,11 @@ const isAuthenticated = (req, res, next) => {
 
 // Example of a protected route
 app.get('/home', isAuthenticated, (req, res) => {
-    res.send('Welcome to the home page, ' + req.session.username);
+    res.sendFile(__dirname + '/public/index.html')
+});
+
+app.get('/', isAuthenticated, (req, res) => {
+    res.redirect('/home');
 });
 
 // Routes
