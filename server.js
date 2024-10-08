@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const { connectDB } = require('./config/db');
 const itemRoutes = require('./routes/itemRoutes');
 const { Pool } = require('pg');
+const path = require('path');
 const { connectionString } = require('pg/lib/defaults');
 
 // Load env variables
@@ -55,6 +56,10 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
 // User Login Route
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -76,10 +81,10 @@ app.post('/login', async (req, res) => {
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
-            return res.redirect('/'); // Redirect to home if there's an error
+            return res.redirect('/home'); // Redirect to home if there's an error
         }
         res.clearCookie('connect.sid'); // Clear session cookie
-        res.redirect('/'); // Redirect to home page after logout
+        res.redirect('/login'); // Redirect to login page after logout
     });
 });
 
