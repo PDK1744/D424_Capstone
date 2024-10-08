@@ -6,7 +6,6 @@ const { connectDB } = require('./config/db');
 const itemRoutes = require('./routes/itemRoutes');
 const { Pool } = require('pg');
 const path = require('path');
-const { connectionString } = require('pg/lib/defaults');
 
 // Load env variables
 dotenv.config();
@@ -26,13 +25,13 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'your_secret_key', 
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } // Set to true if using HTTPS
+    cookie: { secure: false } // Set to true if using HTTPS
 }));
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-        rejectUnauthorizzed: false,
+        rejectUnauthorized: false,
     },
 });
 
@@ -56,11 +55,12 @@ app.post('/register', async (req, res) => {
     }
 });
 
+// User Login Route (GET)
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-// User Login Route
+// User Login Route (POST)
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -71,10 +71,9 @@ app.post('/login', async (req, res) => {
         // Password matches, create session
         req.session.userId = user.id;
         req.session.username = user.username;
-        res.redirect('/'); // Redirect to home page after login
+        res.redirect('/home'); // Redirect to home page after login
     } else {
         res.status(401).send('Invalid credentials');
-        res.redirect('/login');
     }
 });
 
@@ -97,24 +96,21 @@ const isAuthenticated = (req, res, next) => {
     res.redirect('/login'); // Redirect to login if not authenticated
 };
 
-// Example of a protected route
+// Protected route for home page
 app.get('/home', isAuthenticated, (req, res) => {
-    res.sendFile(__dirname + '/public/index.html')
+    res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve home page if authenticated
 });
 
-app.get('/', isAuthenticated, (req, res) => {
-    res.redirect('/home');
-});
-
-// Routes
+// Default route
 app.get('/', (req, res) => {
     if (!req.session.userId) {
-        res.redirect('/login');
+        res.redirect('/login'); // Redirect to login if not authenticated
     } else {
-        res.redirect('home');
+        res.redirect('/home'); // Redirect to home if authenticated
     }
 });
 
+// API routes
 app.use('/api/items', itemRoutes);
 
 const PORT = process.env.PORT || 5000; 
