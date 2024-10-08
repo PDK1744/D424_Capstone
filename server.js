@@ -25,7 +25,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'your_secret_key', 
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: true } 
 }));
 
 const pool = new Pool({
@@ -57,7 +57,13 @@ app.post('/register', async (req, res) => {
 
 // User Login Route (GET)
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    // Send login.html if the user is not authenticated
+    if (!req.session.userId) {
+        res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    } else {
+        // Redirect to home if authenticated
+        res.redirect('/home');
+    }
 });
 
 // User Login Route (POST)
@@ -101,7 +107,7 @@ app.get('/home', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve home page if authenticated
 });
 
-// Default route
+// Default route to check authentication
 app.get('/', (req, res) => {
     if (!req.session.userId) {
         res.redirect('/login'); // Redirect to login if not authenticated
