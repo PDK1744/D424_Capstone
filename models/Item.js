@@ -13,9 +13,9 @@ const itemSchema = Joi.object({
 // Create Item with Joi validation
 const createItem = async (itemData) => {
     // Validate the incoming itemData
-    const { error } = itemSchema.validate(itemData);
+    const { error } = itemSchema.validate(itemData, { abortEarly: false});
     if (error) {
-        throw new Error(error.details[0].message);
+        throw new Error(error.details.map(detail => detail.message).join(', '));
     }
 
     const { name, price, numberInStock, category, sku } = itemData;
@@ -40,9 +40,9 @@ const getItemById = async (id) => {
 // Update Item with Joi validation
 const updateItem = async (id, itemData) => {
     // Validate the incoming itemData
-    const { error } = itemSchema.validate(itemData);
+    const { error } = itemSchema.validate(itemData, { abortEarly: false});
     if (error) {
-        throw new Error(error.details[0].message);
+        throw new Error(error.details.map(detail => detail.message).join(', '));
     }
 
     const { name, price, numberInStock, category, sku } = itemData;
